@@ -97,20 +97,18 @@ function assertReducerShape(reducers) {
 }
 
 /**
- * Turns an object whose values are different reducer functions, into a single
- * reducer function. It will call every child reducer, and gather their results
- * into a single state object, whose keys correspond to the keys of the passed
- * reducer functions.
+ * 把一个值为不同的 reducer 函数的对象，转为单个 reducer 函数.
+ * 它将调用每一个子 reducer，然后将它们的返回值收集到一个 state 对象中，这个 state 对象
+ * 中的 keys 对应传入 combineReducers 时 reducer 函数所对应的 keys
  *
- * @param {Object} reducers An object whose values correspond to different
- * reducer functions that need to be combined into one. One handy way to obtain
- * it is to use ES6 `import * as reducers` syntax. The reducers may never return
- * undefined for any action. Instead, they should return their initial state
- * if the state passed to them was undefined, and the current state for any
- * unrecognized action.
+ * @param {Object} reducers 一个对象，它的值为(需要被合并的)不同的 reducer 函数.
+ * 建议在 reducers/index.js 中使用 combineReducers() 函数进行 reducer 函数合并，以此
+ * 来达到对外输出一个 reducer 函数的目的. 无论 reducers 响应何种 action，永远不要返回
+ * undefined. 建议的做法是，当传入的 state 为 undefined，或者接收到未定义的 action 时，
+ * reducers 应该返回各自的初始 state.
  *
- * @returns {Function} A reducer function that invokes every reducer inside the
- * passed object, and builds a state object with the same shape.
+ * @returns {Function} 一个调用 reducers 对象里所有 reducer 的 reducer，并且构造一个
+ * 与 reducers 对象结构相同的 state 对象.
  */
 export default function combineReducers(reducers) {
   const reducerKeys = Object.keys(reducers)
